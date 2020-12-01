@@ -1,4 +1,5 @@
 import pickle
+import tempfile
 import os
 import CacheData
 
@@ -6,6 +7,7 @@ import CacheData
 class Cache:
     def __init__(self):
         self.domein_name_data = {}
+        self.directory_name = os.path.join(tempfile.gettempdir(), 'path.data.name')
 
     def create(self):
         self.domein_name_data = self.get_name_data()
@@ -21,8 +23,8 @@ class Cache:
             return {}
 
     def get_data_by_domein_name(self, name):
-        data = self.domein_name_data.get(name)
-        return CacheData.cache_data(data['ttl'], data['data'], data['create_time'])
+        data = self.domein_name_data[name]
+        return CacheData.cache_data(data['time_to_live'], data['data'], data['address'], data['mail_address'], data['time_of_creation'])
 
     def add_data_by_domein_name(self, name, data):
         self.domein_name_data[name] = data.get_dict()

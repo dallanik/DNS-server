@@ -33,10 +33,16 @@ if __name__ == "__main__":
                     continue
                 output = str(answer).split('\\r\\n')
                 ttl = 0
+                ip_addr = ""
+                mail_addr = ""
                 for i in output:    
                     if "ttl" in i.lower():
                         ttl = i.split('=')[1].split(' ')[1]
-                data = C_Data.cache_data(ttl, answer, time.time())
+                    elif "address:" in i.lower():
+                        ip_addr = i.split(' ')[1]
+                    elif "mail" in i.lower():
+                        mail_addr = i.split('=')[1]
+                data = C_Data.cache_data(ttl, answer, ip_addr, mail_addr, time.time())
                 if ttl != 0:
                     cache.add_data_by_domein_name(request, data)
                     cache.save()
