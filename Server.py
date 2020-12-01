@@ -21,11 +21,8 @@ if __name__ == "__main__":
             except Exception:
                 continue
             request = bytes.decode(conn)
-            if request in cache.ip_data.keys():
-                data = cache.get_data_by_ip(request)
-                answer = data.data
-            elif request in cache.domein_name_data.keys():
-                data = cache.get_data_by_name(request)
+            if request in cache.domein_name_data.keys():
+                data = cache.get_data_by_domein_name(request)
                 answer = data.data
             else:
                 try:
@@ -41,7 +38,7 @@ if __name__ == "__main__":
                         ttl = i.split('=')[1].split(' ')[1]
                 data = C_Data.cache_data(ttl, answer, time.time())
                 if ttl != 0:
-                    cache.add_data_by_name(request, data)
+                    cache.add_data_by_domein_name(request, data)
                     cache.save()
             s.sendto(answer.decode().encode(), addr)
 
